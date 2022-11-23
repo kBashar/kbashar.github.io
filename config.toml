@@ -1,0 +1,4 @@
+baseURL = 'https://kbashar.github.io/'
+languageCode = 'en-us'
+title = 'Musings of Life'
+theme = 'hugo-PaperMod' 
