@@ -5,12 +5,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Posts | Musings of Life</title>
+<title>git tag | Musings of Life</title>
 <meta name="keywords" content="">
-<meta name="description" content="Posts - Musings of Life">
+<meta name="description" content="git tag marks a specific commit in the source repository.
+A common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.
+git tag command gives the list of all tags. git tag &lt;tagname&gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation.">
 <meta name="author" content="">
-<link rel="canonical" href="https://kbashar.github.io/posts/">
+<link rel="canonical" href="https://kbashar.github.io/posts/git-tag/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css" integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://kbashar.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://kbashar.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://kbashar.github.io/favicon-32x32.png">
@@ -18,7 +22,6 @@
 <link rel="mask-icon" href="https://kbashar.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://kbashar.github.io/posts/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,14 +58,20 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Posts" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://kbashar.github.io/posts/" />
+</noscript><meta property="og:title" content="git tag" />
+<meta property="og:description" content="git tag marks a specific commit in the source repository.
+A common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.
+git tag command gives the list of all tags. git tag &lt;tagname&gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kbashar.github.io/posts/git-tag/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-11-24T10:08:45+06:00" />
+<meta property="article:modified_time" content="2022-11-24T10:08:45+06:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Posts"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:title" content="git tag"/>
+<meta name="twitter:description" content="git tag marks a specific commit in the source repository.
+A common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.
+git tag command gives the list of all tags. git tag &lt;tagname&gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation."/>
 
 
 <script type="application/ld+json">
@@ -75,13 +84,48 @@
       "position":  1 ,
       "name": "Posts",
       "item": "https://kbashar.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "git tag",
+      "item": "https://kbashar.github.io/posts/git-tag/"
     }
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "git tag",
+  "name": "git tag",
+  "description": "git tag marks a specific commit in the source repository.\nA common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.\ngit tag command gives the list of all tags. git tag \u0026lt;tagname\u0026gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation.",
+  "keywords": [
+    
+  ],
+  "articleBody": "git tag marks a specific commit in the source repository.\nA common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.\ngit tag command gives the list of all tags. git tag creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation. Tags can be made to point to another commit other than the HEAD. Tags are not pushed to the remote by default. git push To push all the tags at once use git push --tags git tag -d to delete a tag from the repo. There are two types of tags. lightweight and annotated tags. lightwieght tags have only a name whereas annotated tags contains some more metadata e.g. name, email of the author of the tag, an annotation message. By default command git tag creates a lightweight tag. To create an annotated tag use git tag -a -m \"annotation msg\" . ",
+  "wordCount" : "182",
+  "inLanguage": "en",
+  "datePublished": "2022-11-24T10:08:45+06:00",
+  "dateModified": "2022-11-24T10:08:45+06:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://kbashar.github.io/posts/git-tag/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Musings of Life",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kbashar.github.io/favicon.ico"
+    }
+  }
+}
+</script>
 </head>
 
-<body class="list" id="top">
+<body class="" id="top">
 <script>
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
@@ -124,25 +168,38 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
+<main class="main">
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2>Git Tag
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>git tag git tag marks a specific commit in the source repository.
-A common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.
-git tag command gives the list of all tags. git tag &lt;tagname&gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation....</p>
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      git tag
+    </h1>
+    <div class="post-meta"><span title='2022-11-24 10:08:45 +0600 +06'>November 24, 2022</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>git tag marks a specific commit in the source repository.<br>
+A common use case of the <code>git tag</code> is to denote software release versions
+by marking the points of commit history where the software was stable to release.</p>
+<ol>
+<li><code>git tag</code> command gives the list of all tags.</li>
+<li><code>git tag &lt;tagname&gt;</code> creates a tag named <strong>tagname</strong>. This tag points to the commit that was the head of the repo at the time of the tag creation.</li>
+<li>Tags can be made to point to another commit other than the HEAD.</li>
+<li>Tags are not pushed to the remote by default. <code>git push &lt;remotename&gt; &lt;tagname&gt;</code></li>
+<li>To push all the tags at once use <code>git push &lt;remotename&gt; --tags</code></li>
+<li><code>git tag -d &lt;tagname&gt;</code> to delete a tag from the repo.</li>
+<li>There are two types of tags. lightweight and annotated tags. lightwieght tags have only a name whereas annotated tags contains some more metadata e.g. name, email of the author of the tag, an annotation message. By default command <code>git tag &lt;tagname&gt;</code> creates a lightweight tag. To create an annotated tag use <code>git tag -a -m &quot;annotation msg&quot; &lt;tagname&gt;</code>.</li>
+</ol>
+
+
   </div>
-  <footer class="entry-footer"><span title='2022-11-24 10:08:45 +0600 +06'>November 24, 2022</span></footer>
-  <a class="entry-link" aria-label="post link to Git Tag" href="https://kbashar.github.io/posts/git-tag/"></a>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
 </article>
     </main>
     
