@@ -1,10 +1,8 @@
 ---
-title: "Git Tag"
+title: "git tag"
 date: 2022-11-24T10:08:45+06:00
-draft: true
+draft: false
 ---
-
-# git tag  
 
 git tag marks a specific commit in the source repository.  
  A common use case of the `git tag` is to denote software release versions
