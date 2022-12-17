@@ -1,33 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Posts on Musings of Life</title>
-    <link>https://kbashar.github.io/posts/</link>
-    <description>Recent content in Posts on Musings of Life</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 17 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kbashar.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Getting started with Github Actions</title>
-      <link>https://kbashar.github.io/posts/git-action/</link>
-      <pubDate>Sat, 17 Dec 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://kbashar.github.io/posts/git-action/</guid>
-      <description>Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on Musings of Life</title><link>https://kbashar.github.io/posts/</link><description>Recent content in Posts on Musings of Life</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 17 Dec 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://kbashar.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Getting started with Github Actions</title><link>https://kbashar.github.io/posts/git-action/</link><pubDate>Sat, 17 Dec 2022 00:00:00 +0000</pubDate><guid>https://kbashar.github.io/posts/git-action/</guid><description>Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
 To understand this tool we will go through an example implementation. All releated concepts will be described along the way.
-Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.</description>
-    </item>
-    
-    <item>
-      <title>git tag</title>
-      <link>https://kbashar.github.io/posts/git-tag/</link>
-      <pubDate>Thu, 24 Nov 2022 10:08:45 +0600</pubDate>
-      
-      <guid>https://kbashar.github.io/posts/git-tag/</guid>
-      <description>git tag marks a specific commit in the source repository.
+Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.</description></item><item><title>git tag</title><link>https://kbashar.github.io/posts/git-tag/</link><pubDate>Thu, 24 Nov 2022 10:08:45 +0600</pubDate><guid>https://kbashar.github.io/posts/git-tag/</guid><description>git tag marks a specific commit in the source repository.
 A common use case of the git tag is to denote software release versions by marking the points of commit history where the software was stable to release.
-git tag command gives the list of all tags. git tag &amp;lt;tagname&amp;gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation.</description>
-    </item>
-    
-  </channel>
-</rss>
+git tag command gives the list of all tags. git tag &amp;lt;tagname&amp;gt; creates a tag named tagname. This tag points to the commit that was the head of the repo at the time of the tag creation.</description></item><item><title>Movie review: Requiem for a dream</title><link>https://kbashar.github.io/posts/requime-for-a-dream/</link><pubDate>Sun, 12 Aug 2018 20:12:20 +0600</pubDate><guid>https://kbashar.github.io/posts/requime-for-a-dream/</guid><description>‘Requiem for a dream’(2000), a movie adopted from a book of same title, is of Psychological drama genre primarily explores the pleasure driven compulsiveness of its four protagonists. Whenever we talk about addiction drug abuse comes to fore right away. That is such, for drug addiction has ostensive impact on its user as well as to other institutions related to its user. But more often than not we forget other addictive substances and pursuits prevalent in our day to day life.</description></item></channel></rss>

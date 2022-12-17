@@ -1,210 +1,93 @@
-<!DOCTYPE html>
-<html lang="en" dir="auto">
-
-<head><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
 <title>Getting started with Github Actions | Musings of Life</title>
-<meta name="keywords" content="">
-<meta name="description" content="Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
+<meta name=keywords content>
+<meta name=description content="Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
 To understand this tool we will go through an example implementation. All releated concepts will be described along the way.
 Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.">
-<meta name="author" content="">
-<link rel="canonical" href="https://kbashar.github.io/posts/git-action/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css" integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
-    onload="hljs.initHighlightingOnLoad();"></script>
-<link rel="icon" href="https://kbashar.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://kbashar.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://kbashar.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://kbashar.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://kbashar.github.io/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name=author content>
+<link rel=canonical href=https://kbashar.github.io/posts/git-action/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.bc1149f4a72aa4858d3a9f71462f75e5884ffe8073ea9d6d5761d5663d651e20.css integrity="sha256-vBFJ9KcqpIWNOp9xRi915YhP/oBz6p1tV2HVZj1lHiA=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG+9vmJ0cTS+ovo0FeA=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kbashar.github.io/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://kbashar.github.io/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://kbashar.github.io/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://kbashar.github.io/apple-touch-icon.png>
+<link rel=mask-icon href=https://kbashar.github.io/safari-pinned-tab.svg>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
 <noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --hljs-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-track {
-                background: 0 0;
-            }
-
-            .list:not(.dark)::-webkit-scrollbar-thumb {
-                border-color: var(--theme);
-            }
-        }
-
-    </style>
-</noscript><meta property="og:title" content="Getting started with Github Actions" />
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="Getting started with Github Actions">
 <meta property="og:description" content="Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
 To understand this tool we will go through an example implementation. All releated concepts will be described along the way.
-Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://kbashar.github.io/posts/git-action/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-12-17T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-12-17T00:00:00+00:00" />
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Getting started with Github Actions"/>
-<meta name="twitter:description" content="Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
+Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kbashar.github.io/posts/git-action/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-12-17T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-12-17T00:00:00+00:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Getting started with Github Actions">
+<meta name=twitter:description content="Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.
 To understand this tool we will go through an example implementation. All releated concepts will be described along the way.
-Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository."/>
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://kbashar.github.io/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Getting started with Github Actions",
-      "item": "https://kbashar.github.io/posts/git-action/"
-    }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Getting started with Github Actions",
-  "name": "Getting started with Github Actions",
-  "description": "Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.\nTo understand this tool we will go through an example implementation. All releated concepts will be described along the way.\nProject Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.",
-  "keywords": [
-    
-  ],
-  "articleBody": "Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.\nTo understand this tool we will go through an example implementation. All releated concepts will be described along the way.\nProject Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.\nProject Structure We start with a tiny hello world python project.\ngithub-action-tutorial/\r├─ main.py\r├─ README.md\r├─ requirements.txt main.py python script takes a name as input and print out hello . README file has this tutorial written. And requirments.txt file is there to list out the python dependencies. All codes and files are here.\nGithub Actions has following Ideas, these are discussed serially(as they appear in a workflow file) with code snippet. Full code is added at the end.\nProject Goal Project Structure Workflows Event Runner Job Code Workflows Workflows are yml file residing in .github/workflows path of a repository.\ndefines operations to run when an event related to the repository is triggered, also it describes the computing platform to execute those operations.\nThere can be more than one workflows in a single github repository triggered at different events.\nExample of events, [push, pull]. All supported events.\nWe will create a workflow file titled exe-releaser.yml inside .github/workflows/. Now our project structure is as follows:\ngithub-action-tutorial/\r├─ .github/\r│ ├─ workflows/\r│ │ ├─ exe-releaser.yml\r├─ main.py\r├─ README.md\r├─ requirements.txt Start the workflow file with giving it a name and a run-name.\nname: learn-github-actions run-name: ${{ github.actor }} is learning GitHub Actions Event Workflows are triggered to run when a specific event happens in the repository. For example we can run a workflow if there is a push event in the main branch. Following yml code would do the job.\non: push: branches: - 'main' To know more about the available github action events see this link.\nHowever our project workflow should run whenever a tag is pushed. Git has a provision to mark a point in the commit history by adding a tag. We will use tag to mark release commits in our project. You can learn more about git tag from here. Our event configuration is as follows\non: push: tags: - \"*\" Now we need to add the jobs. Multiple jobs can run in a single workflow. We will talk about jobs in detail in a bit but before that let’s learn about virtual computing platforms on which the jobs run on. These are called runner in github actions context. Each workflow gets a runner of its own, a fresh virtual machine. jobs segment in the workflow gets to define the runner it will run on.\nRunner Github provides runners that run on Windows, Ubuntu(Linux), MacOS. Runners can be self-hosted. In our case we will use a Windows machine to build the exe.\njobs: build-release-exe: runs-on: windows-latest Job A Job is defined by a series of steps to run Steps are described using actions and/or shell command Actions are predefiend github actions. Available from github marketplace. A step must have either uses or run name[Optional] – Name of the Step uses – link of a action run – command to run Job steps\nCheckout the repository using a github actions steps: - name: Repo-Checkout uses: actions/checkout@v3 Our project is coded in python, it’s time to install Python in the windows runner. We use the official github action of version 4 ( actions/setup-python@v4 ) to install Python.\nThere is a new key with here, this is used to provide Input parameters to the action. In our case there are 3 such input parameters, all of them are optionals and github has ways to resolve the values in case no input is provided. We are writing them to make our build environment predictable and matching with the development enevironment. - name: Setup Python uses: actions/setup-python@v4 with: python-version: '3.10' cache: 'pip' architecture: 'x64' Project dependencies are to be isntalled from requirements file. - name: Install Requirement run: pip install -r requirements.txt Now on to build the exe using PyInstaller. - name: Build exe run: PyInstaller --onefile main.py Now that our exe is ready to release. We create a release in Github and upload the exe as an artifact of the release. Till now we have used actions provided by Github. This time we will use a community made actions, ncipollo/release-action. Here build artifact is the exe generated in previous step. This action will add latest pushed tag to the release. - name: Create Release uses: ncipollo/release-action@v1 with: artifacts: 'dist/main.exe' artifactContentType: application/zip removeArtifacts: true Code Complete workflow\nname: learn-github-actions run-name: ${{ github.actor }} is learning GitHub Actions on: push: tags: - \"*\" jobs: build-release-exe: runs-on: windows-latest steps: - name: Repo Checkout uses: actions/checkout@v3 - name: Setup Python uses: actions/setup-python@v4 with: python-version: \"3.10\" cache: \"pip\" architecture: \"x64\" - name: Install Requirements run: pip install -r requirements.txt - name: Build exe run: PyInstaller --onefile main.py - name: Create Release uses: ncipollo/release-action@v1 with: artifacts: \"dist/main.exe\" artifactContentType: application/zip removeArtifacts: true Thanks For Reading.\n",
-  "wordCount" : "859",
-  "inLanguage": "en",
-  "datePublished": "2022-12-17T00:00:00Z",
-  "dateModified": "2022-12-17T00:00:00Z",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://kbashar.github.io/posts/git-action/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Musings of Life",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://kbashar.github.io/favicon.ico"
-    }
-  }
-}
-</script>
+Project Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://kbashar.github.io/posts/"},{"@type":"ListItem","position":2,"name":"Getting started with Github Actions","item":"https://kbashar.github.io/posts/git-action/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Getting started with Github Actions","name":"Getting started with Github Actions","description":"Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.\nTo understand this tool we will go through an example implementation. All releated concepts will be described along the way.\nProject Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.","keywords":[],"articleBody":"Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.\nTo understand this tool we will go through an example implementation. All releated concepts will be described along the way.\nProject Goal Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new tag to the git repository.\nProject Structure We start with a tiny hello world python project.\ngithub-action-tutorial/\r├─ main.py\r├─ README.md\r├─ requirements.txt\rmain.py python script takes a name as input and print out hello . README file has this tutorial written. And requirments.txt file is there to list out the python dependencies. All codes and files are here.\nGithub Actions has following Ideas, these are discussed serially(as they appear in a workflow file) with code snippet. Full code is added at the end.\n Project Goal Project Structure  Workflows Event Runner Job Code    Workflows   Workflows are yml file residing in .github/workflows path of a repository.\n  defines operations to run when an event related to the repository is triggered, also it describes the computing platform to execute those operations.\n  There can be more than one workflows in a single github repository triggered at different events.\n  Example of events, [push, pull]. All supported events.\n  We will create a workflow file titled exe-releaser.yml inside .github/workflows/. Now our project structure is as follows:\ngithub-action-tutorial/\r├─ .github/\r│ ├─ workflows/\r│ │ ├─ exe-releaser.yml\r├─ main.py\r├─ README.md\r├─ requirements.txt\rStart the workflow file with giving it a name and a run-name.\nname: learn-github-actions run-name: ${{ github.actor }} is learning GitHub Actions Event Workflows are triggered to run when a specific event happens in the repository. For example we can run a workflow if there is a push event in the main branch. Following yml code would do the job.\non: push: branches: - 'main' To know more about the available github action events see this link.\nHowever our project workflow should run whenever a tag is pushed. Git has a provision to mark a point in the commit history by adding a tag. We will use tag to mark release commits in our project. You can learn more about git tag from here. Our event configuration is as follows\non: push: tags: - \"*\" Now we need to add the jobs. Multiple jobs can run in a single workflow. We will talk about jobs in detail in a bit but before that let’s learn about virtual computing platforms on which the jobs run on. These are called runner in github actions context. Each workflow gets a runner of its own, a fresh virtual machine. jobs segment in the workflow gets to define the runner it will run on.\nRunner  Github provides runners that run on Windows, Ubuntu(Linux), MacOS. Runners can be self-hosted.  In our case we will use a Windows machine to build the exe.\njobs: build-release-exe: runs-on: windows-latest Job  A Job is defined by a series of steps to run Steps are described using actions and/or shell command Actions are predefiend github actions. Available from github marketplace. A step must have either uses or run  name[Optional] – Name of the Step uses – link of a action run – command to run    Job steps\n Checkout the repository using a github actions  steps: - name: Repo-Checkout uses: actions/checkout@v3 Our project is coded in python, it’s time to install Python in the windows runner. We use the official github action of version 4 ( actions/setup-python@v4 ) to install Python.\nThere is a new key with here, this is used to provide Input parameters to the action. In our case there are 3 such input parameters, all of them are optionals and github has ways to resolve the values in case no input is provided. We are writing them to make our build environment predictable and matching with the development enevironment.  - name: Setup Python uses: actions/setup-python@v4 with: python-version: '3.10' cache: 'pip' architecture: 'x64' Project dependencies are to be isntalled from requirements file.  - name: Install Requirement run: pip install -r requirements.txt Now on to build the exe using PyInstaller.  - name: Build exe run: PyInstaller --onefile main.py Now that our exe is ready to release. We create a release in Github and upload the exe as an artifact of the release. Till now we have used actions provided by Github. This time we will use a community made actions, ncipollo/release-action. Here build artifact is the exe generated in previous step. This action will add latest pushed tag to the release.  - name: Create Release uses: ncipollo/release-action@v1 with: artifacts: 'dist/main.exe' artifactContentType: application/zip removeArtifacts: true Code Complete workflow\nname: learn-github-actions run-name: ${{ github.actor }} is learning GitHub Actions on: push: tags: - \"*\" jobs: build-release-exe: runs-on: windows-latest steps: - name: Repo Checkout uses: actions/checkout@v3 - name: Setup Python uses: actions/setup-python@v4 with: python-version: \"3.10\" cache: \"pip\" architecture: \"x64\" - name: Install Requirements run: pip install -r requirements.txt - name: Build exe run: PyInstaller --onefile main.py - name: Create Release uses: ncipollo/release-action@v1 with: artifacts: \"dist/main.exe\" artifactContentType: application/zip removeArtifacts: true Let’s see if this work Thanks For Reading.\n","wordCount":"864","inLanguage":"en","datePublished":"2022-12-17T00:00:00Z","dateModified":"2022-12-17T00:00:00Z","mainEntityOfPage":{"@type":"WebPage","@id":"https://kbashar.github.io/posts/git-action/"},"publisher":{"@type":"Organization","name":"Musings of Life","logo":{"@type":"ImageObject","url":"https://kbashar.github.io/favicon.ico"}}}</script>
 </head>
-
-<body class="" id="top">
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.body.classList.add('dark');
-    } else if (localStorage.getItem("pref-theme") === "light") {
-        document.body.classList.remove('dark')
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('dark');
-    }
-
-</script>
-
-<header class="header">
-    <nav class="nav">
-        <div class="logo">
-            <a href="https://kbashar.github.io/" accesskey="h" title="Musings of Life (Alt + H)">Musings of Life</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <h1 class="post-title">
-      Getting started with Github Actions
-    </h1>
-    <div class="post-meta"><span title='2022-12-17 00:00:00 +0000 UTC'>December 17, 2022</span>
-
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kbashar.github.io/ accesskey=h title="Musings of Life (Alt + H)">Musings of Life</a>
+<div class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
 </div>
-  </header> 
-  <div class="post-content"><p>Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.</p>
+</div>
+<ul id=menu>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<h1 class=post-title>
+Getting started with Github Actions
+</h1>
+<div class=post-meta><span title="2022-12-17 00:00:00 +0000 UTC">December 17, 2022</span>
+</div>
+</header>
+<div class=post-content><p>Github Actions is a CI/CD platform. Full software development life cycle can be managed using github actions.</p>
 <p>To understand this tool we will go through an example implementation. All releated concepts will be described along the way.</p>
-<h2 id="project-goal">Project Goal<a hidden class="anchor" aria-hidden="true" href="#project-goal">#</a></h2>
+<h2 id=project-goal>Project Goal<a hidden class=anchor aria-hidden=true href=#project-goal>#</a></h2>
 <p>Implement a github actions workflow that builds an exe from the project code and upload the exe file as a release artifact to the github repository. This workflow runs whenever the git repository owner push a new <code>tag</code> to the git repository.</p>
-<h2 id="project-structure">Project Structure<a hidden class="anchor" aria-hidden="true" href="#project-structure">#</a></h2>
+<h2 id=project-structure>Project Structure<a hidden class=anchor aria-hidden=true href=#project-structure>#</a></h2>
 <p>We start with a tiny hello world python project.</p>
-<pre tabindex="0"><code>github-action-tutorial/
+<pre tabindex=0><code>github-action-tutorial/
 ├─ main.py
 ├─ README.md
 ├─ requirements.txt
-</code></pre><p><code>main.py</code> python script takes a name as input and print out <code>hello &lt;name&gt;</code>. README file has this tutorial written. And <code>requirments.txt</code> file is there to list out the python dependencies. All codes and files are <a href="https://github.com/kBashar/github-action-tutorial">here</a>.</p>
-<p>Github Actions has following Ideas, these are discussed serially(as they appear in a workflow file) with code snippet. Full code is added at <a href="#code">the end</a>.</p>
+
+</code></pre><p><code>main.py</code> python script takes a name as input and print out <code>hello &lt;name></code>. README file has this tutorial written. And <code>requirments.txt</code> file is there to list out the python dependencies. All codes and files are <a href=https://github.com/kBashar/github-action-tutorial>here</a>.</p>
+<p>Github Actions has following Ideas, these are discussed serially(as they appear in a workflow file) with code snippet. Full code is added at <a href=#code>the end</a>.</p>
 <ul>
-<li><a href="#project-goal">Project Goal</a></li>
-<li><a href="#project-structure">Project Structure</a>
+<li><a href=#project-goal>Project Goal</a></li>
+<li><a href=#project-structure>Project Structure</a>
 <ul>
-<li><a href="#workflows">Workflows</a></li>
-<li><a href="#event">Event</a></li>
-<li><a href="#runner">Runner</a></li>
-<li><a href="#job">Job</a></li>
-<li><a href="#code">Code</a></li>
+<li><a href=#workflows>Workflows</a></li>
+<li><a href=#event>Event</a></li>
+<li><a href=#runner>Runner</a></li>
+<li><a href=#job>Job</a></li>
+<li><a href=#code>Code</a></li>
 </ul>
 </li>
 </ul>
-<h3 id="workflows">Workflows<a hidden class="anchor" aria-hidden="true" href="#workflows">#</a></h3>
+<h3 id=workflows>Workflows<a hidden class=anchor aria-hidden=true href=#workflows>#</a></h3>
 <ul>
 <li>
 <p>Workflows are <em>yml</em> file residing in <code>.github/workflows</code> path of a repository.</p>
@@ -216,48 +99,49 @@ Project Goal Implement a github actions workflow that builds an exe from the pro
 <p>There can be more than one workflows in a single github repository triggered at different events.</p>
 </li>
 <li>
-<p>Example of events, [push, pull]. <a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows">All supported events</a>.</p>
+<p>Example of events, [push, pull]. <a href=https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows>All supported events</a>.</p>
 </li>
 </ul>
 <p>We will create a workflow file titled <code>exe-releaser.yml</code> inside <code>.github/workflows/</code>. Now our project structure is as follows:</p>
-<pre tabindex="0"><code>github-action-tutorial/
+<pre tabindex=0><code>github-action-tutorial/
 ├─ .github/
 │  ├─ workflows/
 │  │  ├─ exe-releaser.yml
 ├─ main.py
 ├─ README.md
 ├─ requirements.txt
+
 </code></pre><p>Start the workflow file with giving it a name and a run-name.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">learn-github-actions</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ github.actor }} is learning GitHub Actions</span>
-</span></span></code></pre></div><h3 id="event">Event<a hidden class="anchor" aria-hidden="true" href="#event">#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>name</span>: <span style=color:#ae81ff>learn-github-actions</span>
+<span style=color:#f92672>run-name</span>: <span style=color:#ae81ff>${{ github.actor }} is learning GitHub Actions</span>
+</code></pre></div><h3 id=event>Event<a hidden class=anchor aria-hidden=true href=#event>#</a></h3>
 <p>Workflows are triggered to run when a specific event happens in the repository. For example we can run a workflow if there is a push event in the <em>main</em> branch. Following yml code would do the job.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">on</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">branches</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#39;main&#39;</span>
-</span></span></code></pre></div><p>To know more about the available github action events see this <a href="https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows">link</a>.</p>
-<p>However our project workflow should run whenever a <code>tag</code> is pushed. Git has a provision to mark a point in the commit history by adding a tag. We will use <code>tag</code> to mark release commits in our project. You can learn more about <code>git tag</code> from <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging">here</a>.
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>branches</span>:
+      - <span style=color:#e6db74>&#39;main&#39;</span>
+</code></pre></div><p>To know more about the available github action events see this <a href=https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows>link</a>.</p>
+<p>However our project workflow should run whenever a <code>tag</code> is pushed. Git has a provision to mark a point in the commit history by adding a tag. We will use <code>tag</code> to mark release commits in our project. You can learn more about <code>git tag</code> from <a href=https://git-scm.com/book/en/v2/Git-Basics-Tagging>here</a>.
 Our event configuration is as follows</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">on</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tags</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;*&#34;</span>
-</span></span></code></pre></div><p>Now we need to add the jobs. Multiple jobs can run in a single workflow. We will talk about jobs in detail in a bit but before that let&rsquo;s learn about virtual computing platforms on which the jobs run on. These are called <code>runner</code> in github actions context. Each workflow gets a runner of its own, a fresh virtual machine. <code>jobs</code> segment in the workflow gets to define the <code>runner</code> it will run on.</p>
-<h3 id="runner">Runner<a hidden class="anchor" aria-hidden="true" href="#runner">#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>tags</span>:
+      - <span style=color:#e6db74>&#34;*&#34;</span>
+</code></pre></div><p>Now we need to add the jobs. Multiple jobs can run in a single workflow. We will talk about jobs in detail in a bit but before that let&rsquo;s learn about virtual computing platforms on which the jobs run on. These are called <code>runner</code> in github actions context. Each workflow gets a runner of its own, a fresh virtual machine. <code>jobs</code> segment in the workflow gets to define the <code>runner</code> it will run on.</p>
+<h3 id=runner>Runner<a hidden class=anchor aria-hidden=true href=#runner>#</a></h3>
 <ul>
 <li>Github provides runners that run on Windows, Ubuntu(Linux), MacOS.</li>
 <li>Runners can be self-hosted.</li>
 </ul>
 <p>In our case we will use a Windows machine to build the exe.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>    <span style="color:#f92672">jobs</span>:
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">build-release-exe</span>: 
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">windows-latest</span>
-</span></span></code></pre></div><h3 id="job">Job<a hidden class="anchor" aria-hidden="true" href="#job">#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml>    <span style=color:#f92672>jobs</span>:
+      <span style=color:#f92672>build-release-exe</span>: 
+        <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>windows-latest</span>
+</code></pre></div><h3 id=job>Job<a hidden class=anchor aria-hidden=true href=#job>#</a></h3>
 <ul>
 <li>A Job is defined by a series of steps to run</li>
 <li>Steps are described using <em>actions</em> and/or <em>shell</em> command</li>
-<li>Actions are predefiend github actions. Available from github <a href="https://github.com/marketplace">marketplace</a>.</li>
+<li>Actions are predefiend github actions. Available from github <a href=https://github.com/marketplace>marketplace</a>.</li>
 <li>A step must have either <strong>uses</strong> or <strong>run</strong>
 <ul>
 <li>name[Optional] &ndash; Name of the Step</li>
@@ -270,149 +154,90 @@ Our event configuration is as follows</p>
 <ol>
 <li>Checkout the repository using a github actions</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Repo-Checkout</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
-</span></span></code></pre></div><ol start="2">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml>    <span style=color:#f92672>steps</span>:
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Repo-Checkout</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v3</span>
+</code></pre></div><ol start=2>
 <li>Our project is coded in python, it&rsquo;s time to install Python in the windows <code>runner</code>. We use the official github action of version 4 ( <code>actions/setup-python@v4</code> ) to install Python.<br>
 There is a new key <code>with</code> here, this is used to provide Input parameters to the action. In our case there are 3 such input parameters, all of them are optionals and github has ways to resolve the values in case no input is provided. We are writing them to make our build environment predictable and matching with the development enevironment.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Setup Python</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/setup-python@v4</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">with</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">python-version</span>: <span style="color:#e6db74">&#39;3.10&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">cache</span>: <span style="color:#e6db74">&#39;pip&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">architecture</span>: <span style="color:#e6db74">&#39;x64&#39;</span>
-</span></span></code></pre></div><ol start="3">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Setup Python</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-python@v4</span>
+      <span style=color:#f92672>with</span>:
+        <span style=color:#f92672>python-version</span>: <span style=color:#e6db74>&#39;3.10&#39;</span>
+        <span style=color:#f92672>cache</span>: <span style=color:#e6db74>&#39;pip&#39;</span>
+        <span style=color:#f92672>architecture</span>: <span style=color:#e6db74>&#39;x64&#39;</span>
+</code></pre></div><ol start=3>
 <li>Project dependencies are to be isntalled from requirements file.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Install Requirement</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: <span style="color:#ae81ff">pip install -r requirements.txt</span>
-</span></span></code></pre></div><ol start="4">
-<li>Now on to build the exe using <a href="https://pyinstaller.org/en/stable/">PyInstaller</a>.</li>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Install Requirement</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>pip install -r requirements.txt</span>
+</code></pre></div><ol start=4>
+<li>Now on to build the exe using <a href=https://pyinstaller.org/en/stable/>PyInstaller</a>.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Build exe</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">run</span>: <span style="color:#ae81ff">PyInstaller --onefile main.py</span>
-</span></span></code></pre></div><ol start="5">
-<li>Now that our exe is ready to release. We create a release in Github and upload the exe as an artifact of the release. Till now we have used <code>actions</code> provided by Github. This time we will use a community made actions, <a href="https://github.com/ncipollo/release-action">ncipollo/release-action</a>.
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build exe</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>PyInstaller --onefile main.py</span>
+</code></pre></div><ol start=5>
+<li>Now that our exe is ready to release. We create a release in Github and upload the exe as an artifact of the release. Till now we have used <code>actions</code> provided by Github. This time we will use a community made actions, <a href=https://github.com/ncipollo/release-action>ncipollo/release-action</a>.
 Here build artifact is the exe generated in previous step. This action will add latest pushed tag to the release.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span>    - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Create Release</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">ncipollo/release-action@v1</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">with</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">artifacts</span>: <span style="color:#e6db74">&#39;dist/main.exe&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">artifactContentType</span>: <span style="color:#ae81ff">application/zip</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">removeArtifacts</span>: <span style="color:#66d9ef">true</span>
-</span></span></code></pre></div><h3 id="code">Code<a hidden class="anchor" aria-hidden="true" href="#code">#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml>    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Create Release</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>ncipollo/release-action@v1</span>
+      <span style=color:#f92672>with</span>:
+        <span style=color:#f92672>artifacts</span>: <span style=color:#e6db74>&#39;dist/main.exe&#39;</span>
+        <span style=color:#f92672>artifactContentType</span>: <span style=color:#ae81ff>application/zip</span>
+        <span style=color:#f92672>removeArtifacts</span>: <span style=color:#66d9ef>true</span>
+</code></pre></div><h3 id=code>Code<a hidden class=anchor aria-hidden=true href=#code>#</a></h3>
 <p>Complete workflow</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">learn-github-actions</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">run-name</span>: <span style="color:#ae81ff">${{ github.actor }} is learning GitHub Actions</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">on</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">push</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">tags</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#e6db74">&#34;*&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">jobs</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">build-release-exe</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">runs-on</span>: <span style="color:#ae81ff">windows-latest</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">steps</span>:
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Repo Checkout</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/checkout@v3</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Setup Python</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">actions/setup-python@v4</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">python-version</span>: <span style="color:#e6db74">&#34;3.10&#34;</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">cache</span>: <span style="color:#e6db74">&#34;pip&#34;</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">architecture</span>: <span style="color:#e6db74">&#34;x64&#34;</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Install Requirements</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">pip install -r requirements.txt</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Build exe</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">run</span>: <span style="color:#ae81ff">PyInstaller --onefile main.py</span>
-</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Create Release</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">uses</span>: <span style="color:#ae81ff">ncipollo/release-action@v1</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">with</span>:
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">artifacts</span>: <span style="color:#e6db74">&#34;dist/main.exe&#34;</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">artifactContentType</span>: <span style="color:#ae81ff">application/zip</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">removeArtifacts</span>: <span style="color:#66d9ef">true</span>
-</span></span></code></pre></div><p><strong>Thanks For Reading.</strong></p>
-
-
-  </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-    </ul>
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-    <span>&copy; 2022 <a href="https://kbashar.github.io/">Musings of Life</a></span>
-    <span>
-        Powered by
-        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#f92672>name</span>: <span style=color:#ae81ff>learn-github-actions</span>
+<span style=color:#f92672>run-name</span>: <span style=color:#ae81ff>${{ github.actor }} is learning GitHub Actions</span>
+<span style=color:#f92672>on</span>:
+  <span style=color:#f92672>push</span>:
+    <span style=color:#f92672>tags</span>:
+      - <span style=color:#e6db74>&#34;*&#34;</span>
+<span style=color:#f92672>jobs</span>:
+  <span style=color:#f92672>build-release-exe</span>:
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>windows-latest</span>
+    <span style=color:#f92672>steps</span>:
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Repo Checkout</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v3</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Setup Python</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-python@v4</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>python-version</span>: <span style=color:#e6db74>&#34;3.10&#34;</span>
+          <span style=color:#f92672>cache</span>: <span style=color:#e6db74>&#34;pip&#34;</span>
+          <span style=color:#f92672>architecture</span>: <span style=color:#e6db74>&#34;x64&#34;</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Install Requirements</span>
+        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>pip install -r requirements.txt</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build exe</span>
+        <span style=color:#f92672>run</span>: <span style=color:#ae81ff>PyInstaller --onefile main.py</span>
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Create Release</span>
+        <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>ncipollo/release-action@v1</span>
+        <span style=color:#f92672>with</span>:
+          <span style=color:#f92672>artifacts</span>: <span style=color:#e6db74>&#34;dist/main.exe&#34;</span>
+          <span style=color:#f92672>artifactContentType</span>: <span style=color:#ae81ff>application/zip</span>
+          <span style=color:#f92672>removeArtifacts</span>: <span style=color:#66d9ef>true</span>
+</code></pre></div><p>Let&rsquo;s see if this work
+<strong>Thanks For Reading.</strong></p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+</ul>
 </footer>
-<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
-        <path d="M12 6H0l6-6z" />
-    </svg>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://kbashar.github.io/>Musings of Life</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
 </a>
-
-<script>
-    let menu = document.getElementById('menu')
-    if (menu) {
-        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var mybutton = document.getElementById("top-link");
-    window.onscroll = function () {
-        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
-            mybutton.style.visibility = "visible";
-            mybutton.style.opacity = "1";
-        } else {
-            mybutton.style.visibility = "hidden";
-            mybutton.style.opacity = "0";
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
 </body>
-
 </html>
