@@ -78,6 +78,19 @@ git tag command gives the list of all tags. git tag &lt;tagname> creates a tag n
 </article>
 <article class=post-entry>
 <header class=entry-header>
+<h2>How * and + works in regex
+</h2>
+</header>
+<div class=entry-content>
+<p>+, * both are quantifiers. That is they don’t themselves match any pattern but check for repetition or presence of the pattern they are used after. One example will clear things up.
+Assume, we want to match some numbers
+9 90 234 2275258292335728520 To match numbers we can use character class [0-9] or \d, both work the same. but there is one problem, \d or [0-9] both matches number with one digit only....</p>
+</div>
+<footer class=entry-footer><span title="2018-09-12 00:00:00 +0000 UTC">September 12, 2018</span></footer>
+<a class=entry-link aria-label="post link to How * and + works in regex" href=https://kbashar.github.io/posts/regex-1/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
 <h2>Movie review: Requiem for a dream
 </h2>
 </header>
@@ -87,9 +100,45 @@ git tag command gives the list of all tags. git tag &lt;tagname> creates a tag n
 <footer class=entry-footer><span title="2018-08-12 20:12:20 +0600 +0600">August 12, 2018</span></footer>
 <a class=entry-link aria-label="post link to Movie review: Requiem for a dream" href=https://kbashar.github.io/posts/requime-for-a-dream/></a>
 </article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>Patch one: Recent files feature
+</h2>
+</header>
+<div class=entry-content>
+<p>Main code for this patch was ready for GSOC as I’ve coded it earlier for PDFReader of the PDFBox tools. So it was just about reuseing the RecentFiles class with PDFDebugger.
+From this patch I’ve learnt an interesting thing. In RecentFiles class I’ve used Preference API of java to store application preference data. Preference API gives you one instance per Package.
+PDFReader and PDFDebugger both are in same the package so they show the same recent files log....</p>
+</div>
+<footer class=entry-footer><span title="2015-06-01 00:00:00 +0000 UTC">June 1, 2015</span></footer>
+<a class=entry-link aria-label="post link to Patch one: Recent files feature" href=https://kbashar.github.io/posts/gsoc-3/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>Code has began
+</h2>
+</header>
+<div class=entry-content>
+<p>It has started after all. Summer has started as much awesomely as possible for me. Write code, get feedback, update and learn. What else you need if you love to code! One of the most anticipated event for me was participating in GSOC (Google Summer of Code) and after trying for two consecutive years I was at last selected this year. And I’m coding this year in Apache foundation and to be more precise in PDFBox....</p>
+</div>
+<footer class=entry-footer><span title="2015-05-31 00:00:00 +0000 UTC">May 31, 2015</span></footer>
+<a class=entry-link aria-label="post link to Code has began" href=https://kbashar.github.io/posts/gsoc-2/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>My GSOC at PDFBox Apache Foundation
+</h2>
+</header>
+<div class=entry-content>
+<p>As a gsoc student I’m going to code to improve the PDFDebugger tool of the PDFBOX this summer. PDFBox is from the apache foundation.
+PDFDebugger helps you to inspect the internal data in a structured and readable way which in turn paves a way to debug your PDF files. The PDFBOX already has a PDFDebugger which provides some fundamental facilities to user but lacks many more which are very useful for PDF detective works....</p>
+</div>
+<footer class=entry-footer><span title="2015-04-30 00:00:00 +0000 UTC">April 30, 2015</span></footer>
+<a class=entry-link aria-label="post link to My GSOC at PDFBox Apache Foundation" href=https://kbashar.github.io/posts/gsoc-1/></a>
+</article>
 </main>
 <footer class=footer>
-<span>&copy; 2022 <a href=https://kbashar.github.io/>Musings of Life</a></span>
+<span>&copy; 2023 <a href=https://kbashar.github.io/>Musings of Life</a></span>
 <span>
 Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
