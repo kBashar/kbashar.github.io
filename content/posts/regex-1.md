@@ -1,10 +1,10 @@
 ---
-title: "How \* and + works in regex"
+title: "How * and + works in regex"
 date: 2018-09-12
 draft: false
 ---
 
-+, \* both are quantifiers. That is they don't themselves match any pattern but check for repetition or presence of the pattern they are used after. One example will clear things up.
++, * both are quantifiers. That is they don't themselves match any pattern but check for repetition or presence of the pattern they are used after. One example will clear things up.
 
 Assume, we want to match some numbers
 
@@ -17,8 +17,8 @@ To match numbers we can use character class `[0-9]` or `\d`, both work the same.
 
 Firstly, it's tiring to write repeating characters and secondly what if we don't know the count of digits of the number beforehand. Here comes the quantifiers to rescue.
 
-\+ -> matches at least one and more of the pattern it's used after.\`
-\* -> matches none or more of the patterns it's used after.\`
+\+ -> matches at least one and more of the pattern it's used after.\
+\* -> matches none or more of the patterns it's used after.
 
 Going back to the previous example, we want to match numbers be it one digit or more, we make our regex `\d+` i.e. one + plus after digit matching pattern `\d`. Now it matches all of the numbers.
 

@@ -1,5 +1,5 @@
 ---
-title: My GSOC at PDFBox Apache Foundation
+title: "My GSOC at PDFBox Apache Foundation"
 date: 2015-04-30
 draft: false
 ---
