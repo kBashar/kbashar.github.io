@@ -4,6 +4,7 @@ date: 2023-09-02
 draft: false
 ---
 
+## Redis
 
 Redis is a key value store. Where the supported value type is numerus.
 
